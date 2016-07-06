@@ -4,6 +4,9 @@ Recipies = new Mongo.Collection('recipies');
 Recipies.allow({
   insert: function(userId, doc) {
     return !!userId;
+  },
+  update: function(userId, doc) {
+    return !!userId;
   }
 })
 
@@ -58,5 +61,15 @@ RecipieSchema = new SimpleSchema({
     }
   }
 });
+
+Meteor.methods({
+  toggleMenuItem: function(id, currentState){
+    Recipies.update(id, {
+      $set: {
+        inMenu: !currentState
+      }
+    });
+  }
+})
 
 Recipies.attachSchema(RecipieSchema);
